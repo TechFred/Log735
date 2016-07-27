@@ -3,18 +3,39 @@ package client.events;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import client.TCPConnectionServeur;
+import client.ui.JFrameAuthentificationUtilisateur;
 
 public class ConnectionServeur implements ActionListener {
 	JTextField txtFieldIp;
 	JTextField txtFieldPort;
+	JFrame frame;
 	
-	public ConnectionServeur(JTextField ip, JTextField port){
+	public ConnectionServeur(JFrame f, JTextField ip, JTextField port){
 		this.txtFieldIp = ip;
 		this.txtFieldPort = port;
+		this.frame = f;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("IP:\t"+txtFieldIp.getText()+"\nPort:\t"+txtFieldPort.getText());
+		
+		try{
+			TCPConnectionServeur.getInstance().initServerCoordinates( txtFieldIp.getText(), Integer.parseInt(txtFieldPort.getText()) );
+			TCPConnectionServeur.getInstance().connectToServeur();
+			if(TCPConnectionServeur.getInstance().isConnectedToServeur()){
+				JFrameAuthentificationUtilisateur auth = new JFrameAuthentificationUtilisateur();
+				auth.setVisible(true);
+				frame.dispose();
+			}
+			
+		}catch(NumberFormatException err){
+			JOptionPane.showMessageDialog(new JFrame(), "Le port entré doit être un nombre valide!");
+		}
+		
 	}
+	
 }

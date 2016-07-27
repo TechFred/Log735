@@ -29,7 +29,7 @@ public class JFrameConnectionServeur extends JFrame {
 	public JFrameConnectionServeur() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(JFrameConnectionServeur.class.getResource("/img/logo.jpg")));
 		setType(Type.UTILITY);
-		setTitle("PearToPear Chat");
+		setTitle("PearToPear Chat - Connection au Serveur");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 190);
 		contentPane = new JPanel();
@@ -109,7 +109,7 @@ public class JFrameConnectionServeur extends JFrame {
 		gbc_btnSeConnecter.gridy = 6;
 		contentPane.add(btnSeConnecter, gbc_btnSeConnecter);
 		
-		btnSeConnecter.addActionListener(new ConnectionServeur(textField, textField_1));
+		btnSeConnecter.addActionListener(new ConnectionServeur(this, textField, textField_1));
 	}
 
 }
