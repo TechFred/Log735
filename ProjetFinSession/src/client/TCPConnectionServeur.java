@@ -104,10 +104,42 @@ public class TCPConnectionServeur {
 	}
 
 	public boolean tryToLogin(String user, String encryptedPassword) {
-
-		System.out.println("TODO");
+		boolean worked = false;
 		
-		return false;
+		out.println("TRY_LOGIN]["+user+"]["+encryptedPassword);
+		
+		String inputLine;
+		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}else if(args[0].trim().equals("__INVALID__")){
+					JOptionPane.showMessageDialog(new JFrame(), "L'utilisateur et le mot de passe entré sont invalide!");
+				}else if(args[0].trim().equals("__USER_ALREADY_ONLINE__")){
+					JOptionPane.showMessageDialog(new JFrame(), "L'utilisateur est déjà connecté!\nVeuillez réessayer plus tard!");
+				}else if(args[0].trim().equals("__WORKED__")){
+					User u = new User();
+					u.setUid(Integer.parseInt(args[2]));
+					u.setUsername(args[1]);
+					
+					Session.getInstance().setUser(u);
+					
+					worked = true;
+				}
+				
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return worked;
 	}
 	
 	

@@ -8,7 +8,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import client.MainClient;
+import client.Session;
 import client.TCPConnectionServeur;
+import client.ui.JFrameLobby;
 
 public class UserAuthentification implements ActionListener {
 	private JFrame frame;
@@ -30,7 +32,11 @@ public class UserAuthentification implements ActionListener {
 		
 		if(TCPConnectionServeur.getInstance().tryToLogin(user, encryptedPassword)){
 
-			System.out.println("TODO");
+			JFrameLobby lobby = new JFrameLobby();
+			lobby.setVisible(true);
+			
+			frame.dispose();
+			TCPConnectionServeur.getInstance().disconnectFromServeur();
 			
 		}
 		
