@@ -6,10 +6,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import client.model.Session;
+import client.model.User;
 
 public class TCPConnectionServeur {
 	private static TCPConnectionServeur instance = null;
@@ -54,6 +57,7 @@ public class TCPConnectionServeur {
 	public void disconnectFromServeur(){
 		connected = false;
 		
+		out.println("CLOSE_CONNECTION");
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -140,6 +144,41 @@ public class TCPConnectionServeur {
 		
 		
 		return worked;
+	}
+
+	public void logout() {
+		
+		out.println("LOGOUT]["+Session.getInstance().getUser().getUid()+"]["+Session.getInstance().getUser().getUsername());
+		
+	}
+
+	public ArrayList<User> retreiveLobbyUsers() {
+		ArrayList<User> listeUsersInLobby = new ArrayList<User>();
+		
+		out.println("RETRIEVE_USERS_FROM_LOBBY");
+		
+		String inputLine;
+		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}else if(args[0].trim().equals("__USER__")){
+					listeUsersInLobby.add(new User(Integer.parseInt(args[1]), args[2]));
+				}
+				
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return listeUsersInLobby;
 	}
 	
 	

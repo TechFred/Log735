@@ -4,10 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import client.events.ConnectionServeur;
+import client.events.DisconnectAndClose;
 import client.events.UserCreation;
 
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
@@ -18,7 +17,6 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -34,10 +32,8 @@ public class JFrameCreationUser extends JFrame {
 	private JFrameCreationUser thiis = this;
 
 	public JFrameCreationUser() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(JFrameCreationUser.class.getResource("/img/logo.jpg")));
 		setType(Type.UTILITY);
 		setTitle("PearToPear Chat - Cr\u00E9ation d'un utilisateur");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 556, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -139,6 +135,9 @@ public class JFrameCreationUser extends JFrame {
 				thiis.dispose();
 			}
 		});
+		
+
+		addWindowListener(new DisconnectAndClose());
 		
 	}
 

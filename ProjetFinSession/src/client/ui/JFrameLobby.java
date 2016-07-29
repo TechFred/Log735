@@ -1,55 +1,98 @@
 package client.ui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.Window.Type;
+import javax.swing.JScrollPane;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.BoxLayout;
 
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
+
+import client.events.DisconnectUser;
+import client.events.MenuCreerSalleConversation;
+import client.events.MenuJoindreSalleConversation;
+import client.model.Session;
+import client.model.User;
 
 import javax.swing.JSplitPane;
-import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
+import javax.swing.JMenuItem;
+import javax.swing.JList;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
-import client.Session;
-
-public class JFrameLobby extends JFrame {
-
-	private JPanel contentPane;
-
+public class JFrameLobby extends JFrame implements FrameConvo {
+	
+	private static final long serialVersionUID = 1L;
+	private JPanel panelRoom = new JPanel();
+	private JPanel panelUsers = new JPanel();
+	
+	private DefaultListModel<User> model;
+	public JList<User> listUsers;
+	
 	/**
 	 * Create the frame.
 	 */
 	public JFrameLobby() {
 		
+		model = new DefaultListModel<User>();
+		listUsers = new JList<User>(model);
+		
 		setTitle("Pear to Pear Chat - Lobby  ["+Session.getInstance().getUser().getUsername()+"]");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		
+		setBounds(0, 0, 900, 500);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Fichier");
-		menuBar.add(mnNewMenu);
-		
 		JMenu mnNewMenu_1 = new JMenu("Salles de conversations");
 		menuBar.add(mnNewMenu_1);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JMenuItem mntmCrerUneSalle = new JMenuItem("Cr\u00E9er une salle de conversation");
+		mnNewMenu_1.add(mntmCrerUneSalle);
+		
+		JMenuItem mntmRejoindreUneSalle = new JMenuItem("Rejoindre une salle existante");
+		mnNewMenu_1.add(mntmRejoindreUneSalle);
+		
+		JScrollPane scrollPanelRooms = new JScrollPane(panelRoom);
+		panelUsers.setBackground(Color.WHITE);
+		JScrollPane scrollPanelUsers = new JScrollPane(panelUsers);
+		panelUsers.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblUtilisateursEnLigne = new JLabel("<HTML><U>Utilisateurs en ligne</U></HTML>");
+		lblUtilisateursEnLigne.setBackground(Color.WHITE);
+		lblUtilisateursEnLigne.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUtilisateursEnLigne.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelUsers.add(lblUtilisateursEnLigne, BorderLayout.NORTH);
+		
+		panelUsers.add(listUsers, BorderLayout.CENTER);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPanelRooms, scrollPanelUsers);
+		//contentPane.add(splitPane);
+		setContentPane(splitPane);
+		
+		scrollPanelRooms.setMinimumSize(new Dimension(650, 500));
+		scrollPanelUsers.setMinimumSize(new Dimension(200, 500));
+		
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new DisconnectUser(this));
+		
+		mntmCrerUneSalle.addActionListener(new MenuCreerSalleConversation());
+		mntmRejoindreUneSalle.addActionListener(new MenuJoindreSalleConversation());
 		
 	}
 
+	@Override
+	public void refreshListeUsers(User[] u) {
+		model.clear();
+		for (User user : u) {
+			model.addElement(user);
+		}
+	}
 }

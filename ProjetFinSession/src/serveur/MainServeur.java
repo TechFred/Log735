@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import serveur.data.ConfigManager;
+import serveur.data.UsersManager;
 import serveur.thread.TCPClientConnectionThread;
 
 
 public class MainServeur {
 	
-	private static int SERVER_PORT = 9000;
+	private static int SERVER_PORT = 9001;
 
 	public static void main(String[] args) {
-				
+		
+		ConfigManager.load();
+		UsersManager.load();
+		
 		ServerSocket serverSocket = null;
         Socket socket = null;
 
@@ -44,8 +49,6 @@ public class MainServeur {
 				System.out.println("UH?");
 			}
         }
-		
-		
 		
 	}
 	

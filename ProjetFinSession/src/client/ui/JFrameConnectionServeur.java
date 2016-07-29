@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 
 import client.events.ConnectionServeur;
 
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -27,10 +26,8 @@ public class JFrameConnectionServeur extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameConnectionServeur() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(JFrameConnectionServeur.class.getResource("/img/logo.jpg")));
 		setType(Type.UTILITY);
 		setTitle("PearToPear Chat - Connection au Serveur");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 190);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -92,7 +89,7 @@ public class JFrameConnectionServeur extends JFrame {
 		contentPane.add(lblPort, gbc_lblPort);
 		
 		textField_1 = new JTextField();
-		textField_1.setText("9000");
+		textField_1.setText("9001");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -110,6 +107,8 @@ public class JFrameConnectionServeur extends JFrame {
 		contentPane.add(btnSeConnecter, gbc_btnSeConnecter);
 		
 		btnSeConnecter.addActionListener(new ConnectionServeur(this, textField, textField_1));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 	}
 
 }

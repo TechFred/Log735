@@ -1,6 +1,7 @@
 package serveur.data;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,56 +11,14 @@ import java.util.Properties;
 
 public class UsersManager {
 	private final static String filename = "src/serveur/data/users";
-	public static String getUserPassword(String user){
-		String pw = null;
-		
-		Properties prop = new Properties();
+	private static Properties prop = new Properties();
+	
+	public static void load(){
 		InputStream input = null;
-		
 		try {
-
-			input = new FileInputStream(filename);
-			// load a properties file
-			prop.load(input);
-
-			// get the property value and print it out
-			pw = prop.getProperty(user);
-
-			
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return pw;
-	}
-
-	public static void createNewUser(String user, String password) {
-		
-		Properties prop = new Properties();
-		OutputStream output = null;
-		InputStream input = null;
-
-		try {
-
 			input = new FileInputStream(filename);
 			prop.load(input);
 			input.close();
-			output = new FileOutputStream(filename);
-
-			// set the properties value
-			prop.setProperty(user, password);
-
-			// save properties to project root folder
-			prop.store(output, null);
-			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -71,6 +30,30 @@ public class UsersManager {
 				}
 			}
 		}
+	}
+	
+	public static void save(){
+		OutputStream output = null;
+		try {
+			output = new FileOutputStream(filename);
+			prop.store(output, null);
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static String getUserPassword(String user){
+		return prop.getProperty(user);
+	}
+
+	public static void createNewUser(String user, String password) {
+		// set the properties value
+		prop.setProperty(user, password);
+		save();
 	}
 	
 }

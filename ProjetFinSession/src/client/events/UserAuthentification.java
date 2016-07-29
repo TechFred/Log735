@@ -8,8 +8,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import client.MainClient;
-import client.Session;
 import client.TCPConnectionServeur;
+import client.model.Room;
+import client.model.Session;
 import client.ui.JFrameLobby;
 
 public class UserAuthentification implements ActionListener {
@@ -30,10 +31,17 @@ public class UserAuthentification implements ActionListener {
 		
 		String encryptedPassword = MainClient.encrypt(password);
 		
-		if(TCPConnectionServeur.getInstance().tryToLogin(user, encryptedPassword)){
-
+		if( TCPConnectionServeur.getInstance().tryToLogin(user, encryptedPassword) ){
+			
 			JFrameLobby lobby = new JFrameLobby();
+			
+			Room lobbyR = new Room(0, "Lobby", "", false, lobby);
+			Session.getInstance().setLobby(lobbyR);
+			
+			Session.getInstance().getLobby().setUsers(TCPConnectionServeur.getInstance().retreiveLobbyUsers());
+			
 			lobby.setVisible(true);
+			Session.getInstance().getLobby().refreshListeUsers();
 			
 			frame.dispose();
 			TCPConnectionServeur.getInstance().disconnectFromServeur();

@@ -5,9 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import client.events.UserAuthentification;
-import client.events.ConnectionServeur;
+import client.events.DisconnectAndClose;
 
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
@@ -34,10 +33,8 @@ public class JFrameAuthentificationUtilisateur extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameAuthentificationUtilisateur() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(JFrameAuthentificationUtilisateur.class.getResource("/img/logo.jpg")));
 		setType(Type.UTILITY);
 		setTitle("PearToPear Chat - Authentification");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 471, 190);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -132,6 +129,8 @@ public class JFrameAuthentificationUtilisateur extends JFrame {
 				thiis.dispose();
 			}
 		});
+		
+		addWindowListener(new DisconnectAndClose());
 		
 	}
 
