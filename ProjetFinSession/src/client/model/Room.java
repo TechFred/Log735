@@ -113,6 +113,7 @@ public class Room {
 			if (users.get(i).getUid() == uid) {
 				userFound = users.get(i);
 				this.users.remove(i);
+				i--;
 				System.out.println("User removed: " + userFound.getUsername());
 				break;
 			}
