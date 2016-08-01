@@ -192,7 +192,7 @@ public class TCPConnectionServeur {
 
 	public void leaveRoom(int roomId) {
 		
-		out.println("LEAVE_ROOM]["+Session.getInstance().getUser().getUid()+"]["+Session.getInstance().getUser().getUsername());
+		out.println("LEAVE_ROOM]["+Session.getInstance().getUser().getUid()+"]["+roomId);
 		String inputLine;
 		
 		try {
@@ -214,7 +214,7 @@ public class TCPConnectionServeur {
 	public int tryCreateRoom(String roomName, String roomPassword) {
 		int idRoom = 0;
 
-		out.println("TRY_CREATE_ROOM]["+Session.getInstance().getUser().getUid()+"]["+roomName+"]["+roomPassword);
+		out.println("TRY_CREATE_ROOM]["+roomName+"]["+roomPassword+"]["+Session.getInstance().getUser().getUid());
 		String inputLine;
 		
 		try {
@@ -241,7 +241,7 @@ public class TCPConnectionServeur {
 		
 		int idRoom = 0;
 
-		out.println("TRY_JOIN_ROOM]["+Session.getInstance().getUser().getUid()+"]["+roomName+"]["+roomPassword);
+		out.println("TRY_JOIN_ROOM]["+roomName+"]["+roomPassword+"]["+Session.getInstance().getUser().getUid());
 		String inputLine;
 		
 		try {
@@ -266,7 +266,7 @@ public class TCPConnectionServeur {
 	}
 
 	public ArrayList<User> retreiveRoomUsers(int idRoom) {
-ArrayList<User> listeUsersInLobby = new ArrayList<User>();
+		ArrayList<User> listeUsersInLobby = new ArrayList<User>();
 		
 		out.println("RETRIEVE_USERS_FROM_ROOM]["+idRoom+"]["+Session.getInstance().getUser().getUid());
 		

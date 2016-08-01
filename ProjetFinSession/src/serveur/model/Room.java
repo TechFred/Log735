@@ -1,15 +1,10 @@
 package serveur.model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Room {
 
-	private int 					uid,
-									operationID = 1;
-	
-	private Queue<Operation> 		fileOperations = new LinkedList<Operation>();
+	private int 					uid;
 	
 	private String 					uname,
 									password;
@@ -70,13 +65,10 @@ public class Room {
 	
 	public void addUser(OnlineUser u){
 		this.users.add(u);
-		fileOperations.add(new Operation(operationID++, Operation.OP_JOIN, u.getUid(), u.getUsername()));
 	}
 	
-	public void removeUser(OnlineUser u){
-		if(this.users.remove(u)){
-			fileOperations.add(new Operation(operationID++, Operation.OP_LEAVE, u.getUid(), u.getUsername()));
-		}
+	public boolean removeUser(OnlineUser u){
+		return this.users.remove(u);
 	}
 	
 }

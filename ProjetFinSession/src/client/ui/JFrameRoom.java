@@ -60,7 +60,7 @@ public class JFrameRoom extends JFrame implements FrameConvo {
 		model = new DefaultListModel<User>();
 		listUsers = new JList<User>(model);
 
-		setTitle("Pear to Pear Chat - Lobby  [" + Session.getInstance().getUser().getUsername() + "]");
+		setTitle("Pear to Pear Chat -  [" + Session.getInstance().getUser().getUsername() + "]");
 
 		setBounds(0, 0, 900, 500);
 
@@ -84,9 +84,9 @@ public class JFrameRoom extends JFrame implements FrameConvo {
 			public void actionPerformed(ActionEvent e) {
 				// refreshUserMessage(chatTextBox.getText());
 				// TODO Les 45000 validation si on veut sécuriser le texte.
-				userRoomMessage.sendMessage(new MessageUDP(Session.getInstance().getLobby().getUid(),
+				userRoomMessage.sendMessage(new MessageUDP(room.getUid(),
 					chatTextBox.getText(), Session.getInstance().getUser().getUid()),
-					Session.getInstance().getLobby()
+					room
 				);
 				chatTextBox.setText("");
 			}
@@ -112,12 +112,13 @@ public class JFrameRoom extends JFrame implements FrameConvo {
 		scrollPanelUsers.setMinimumSize(new Dimension(200, 500));
 
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.addWindowListener(new QuitterRoom(room, this));
 
 	}
 
 	public void setRoom(Room rooom){
 		this.room = rooom;
+		this.setTitle("Pear to Pear Chat - "+room.getUname()+"  [" + Session.getInstance().getUser().getUsername() + "]");
+		this.addWindowListener(new QuitterRoom(room, this));
 	}
 	@Override
 	public void refreshListeUsers(User[] u) {

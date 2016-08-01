@@ -33,7 +33,6 @@ public class InChatPrebuildMessages {
 
 	public static void showMessageUserQuit(User user, Room r){
 		r.addUserMessage(getDate() + "*** QUITS: " + user.getUsername() + "(" + user.getIpAddress() + ")");
-		
 	}
 	
 	public static void showMessageUserTimeout(User user, Room r){

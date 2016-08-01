@@ -80,12 +80,20 @@ public class UserRoomMessage {
 		if (q.getRoomUID() == lobby.getUid()) {
 			r = lobby;
 			User u = r.remove(q.getUserUID());
-			InChatPrebuildMessages.showMessageUserQuit(u, r);
+			if(q.isTimedOut()){
+				InChatPrebuildMessages.showMessageUserTimeout(u, r);
+			}else{
+				InChatPrebuildMessages.showMessageUserQuit(u, r);
+			}
 		} else if ((r = findRoomUID(q.getRoomUID())) != null) {
 			
-			r.remove(q.getUserUID());
 			User  u = r.remove(q.getUserUID());
-			InChatPrebuildMessages.showMessageUserQuit(u, r);
+			if(q.isTimedOut()){
+				InChatPrebuildMessages.showMessageUserTimeout(u, r);
+			}else{
+				InChatPrebuildMessages.showMessageUserQuit(u, r);
+			}
+			
 		} else {
 			System.out.println("Salle non trouvé");
 		}
@@ -95,7 +103,9 @@ public class UserRoomMessage {
 		System.out.println("Quits sent");
 		ArrayList<User> Users = (ArrayList<User>) r.getUsers().clone();
 		for (User u : Users) {
-			UtilsSendUDP.SendUDP(q, u.getIpAddress(), u.getPort());
+			if(u.getUid() != Session.getInstance().getUser().getUid()){
+				UtilsSendUDP.SendUDP(q, u.getIpAddress(), u.getPort());	
+			}
 		}
 
 		// Envoyer au serveur en dernier.

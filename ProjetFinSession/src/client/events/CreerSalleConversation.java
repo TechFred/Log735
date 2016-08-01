@@ -40,13 +40,15 @@ public class CreerSalleConversation implements ActionListener {
 				room.addUser(Session.getInstance().getUser());
 				frameR.setVisible(true);
 				room.refreshListeUsers();
+				room.joinRoomAnnounce(Session.getInstance().getUser());
+				
 				Session.getInstance().getRooms().add(room);
 				f.dispose();
 				
 			}
 			
 		}else{
-			JOptionPane.showConfirmDialog(f, "Vous devez entre un nom pour la salle de conversation!");
+			JOptionPane.showMessageDialog(f, "Vous devez entre un nom pour la salle de conversation!");
 		}
 		
 	}

@@ -66,6 +66,23 @@ public class TCPClientConnectionThread extends Thread{
 			case "RETRIEVE_USERS_FROM_LOBBY":
 				retrieveUsersInLobby(out);
 			break;
+			
+			case "TRY_CREATE_ROOM":
+				tryCreateRoom(args, out);
+			break;
+			
+			case "TRY_JOIN_ROOM":
+				tryJoinRoom(args, out);
+			break;
+			
+			case "LEAVE_ROOM":
+				tryLeaveRoom(args, out);
+			break;
+			
+			case "RETRIEVE_USERS_FROM_ROOM":
+				retrieveUsersFromRoom(args, out);
+			break;
+			
 			default:
 				System.err.println("DEFAULT ARG: "+args[0]+" A PROGRAMMER...");
 			break;
@@ -73,6 +90,85 @@ public class TCPClientConnectionThread extends Thread{
 	}
 	
 	
+	private void retrieveUsersFromRoom(String[] args, PrintWriter out) {
+		
+		Room r = null;
+		for( Room r2 : Session.getInstance().getListeRooms() ){
+			if( r2.getUid() == Integer.parseInt(args[1]) ){
+				r = r2;
+			}
+		}
+		
+		if(r != null){
+			for (OnlineUser u : r.getListeUsers()) {
+				out.println("__USER__]["+u.getUid()+"]["+u.getUsername()+"]["+u.getIp()+"]["+u.getPort());
+			}
+		}else{
+			out.println("__ROOM_DOESNT_EXISTS__");
+		}
+		
+		out.println("__END__");
+	}
+
+	private void tryLeaveRoom(String[] args, PrintWriter out) {
+		Room r = null;
+		for( Room r2 : Session.getInstance().getListeRooms() ){
+			if( r2.getUid() == Integer.parseInt(args[2]) ){
+				r = r2;
+			}
+		}
+		
+		if(r != null){
+			r.removeUser(Session.getInstance().getUser(Integer.parseInt(args[1])));
+		}
+		out.println("__END__");
+	}
+
+	private void tryJoinRoom(String[] args, PrintWriter out) {
+		
+		Room r = null;
+		for( Room r2 : Session.getInstance().getListeRooms() ){
+			if(r2.getUname().equals(args[1]) && r2.getPassword().equals(args[2]) && !r2.isPrivateRoom()){
+				r = r2;
+			}
+		}
+		
+		if(r == null){
+			out.println("__WRONG_PASSWORD__");
+		}else{
+			r.addUser(Session.getInstance().getUser(Integer.parseInt(args[3])));
+			out.println("__JOINED__]["+r.getUid());
+		}
+		
+		out.println("__END__");
+		
+	}
+
+	private void tryCreateRoom(String[] args, PrintWriter out) {
+		
+		boolean exists = false;
+		
+		for( Room r : Session.getInstance().getListeRooms() ){
+			if(r.getUname().equals(args[1])){
+				exists = true;
+			}
+		}
+		for (String string : args) {
+			System.out.println("ARG "+string);
+		}
+		if(exists){
+			out.println("__ALREADY_EXISTS__");
+		}else{
+			Room r = new Room(ConfigManager.getNextRoomId(), args[1], args[2], false);
+			r.addUser(Session.getInstance().getUser(Integer.parseInt(args[3])));
+			Session.getInstance().getListeRooms().add(r);
+			out.println("__CREATED__]["+r.getUid());
+		}
+		
+		out.println("__END__");
+		
+	}
+
 	private void retrieveUsersInLobby(PrintWriter out) {
 		for (OnlineUser u : Session.getInstance().getLobby().getListeUsers()) {
 			out.println("__USER__]["+u.getUid()+"]["+u.getUsername()+"]["+u.getIp()+"]["+u.getPort());

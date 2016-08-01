@@ -39,7 +39,7 @@ public class Session {
 	}
 	
 	public void quitterRoom(int uid) {
-		for(int i = 0; i <= rooms.size(); i++ ){
+		for(int i = 0; i < rooms.size(); i++ ){
 			if(rooms.get(i).getUid() == uid){
 				rooms.remove(i);
 				i--;

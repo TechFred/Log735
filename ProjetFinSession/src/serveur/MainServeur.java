@@ -9,6 +9,7 @@ import java.net.SocketException;
 import client.thread.UDPConnectionThread;
 import serveur.data.ConfigManager;
 import serveur.data.UsersManager;
+import serveur.thread.GestionUserThread;
 import serveur.thread.TCPClientConnectionThread;
 
 public class MainServeur {
@@ -17,9 +18,11 @@ public class MainServeur {
 	private static int SERVER_PORT_UDP = 9005;
 
 	public static void main(String[] args) {
-
+		
 		ConfigManager.load();
 		UsersManager.load();
+		
+		new GestionUserThread().start();
 
 		ServerSocket serverSocket = null;
 		Socket socket = null;

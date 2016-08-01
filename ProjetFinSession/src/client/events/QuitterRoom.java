@@ -29,6 +29,11 @@ public class QuitterRoom implements WindowListener {
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
 		int i = JOptionPane.showConfirmDialog(f, "Êtes-vous sure de vouloir quitter cette salle de conversation?");
 		if (i == 0) {
 			int roomUID = r.getUid();
@@ -43,11 +48,6 @@ public class QuitterRoom implements WindowListener {
 			
 			f.dispose();
 		}
-	}
-
-	@Override
-	public void windowClosing(WindowEvent arg0) {
-		
 	}
 
 	@Override

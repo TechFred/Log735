@@ -12,7 +12,7 @@ public class ThreadLifebeat extends Thread{
 			try {
 				Thread.sleep(sleepTime);
 				System.out.println("lifeBeat!");
-				UtilsSendUDP.SendUDP(id , TCPConnectionServeur.getInstance().getServerIp(), 9002);
+				UtilsSendUDP.SendUDP(id , TCPConnectionServeur.getInstance().getServerIp(), 9005);
 			} catch (InterruptedException e) {
 			}
 		}

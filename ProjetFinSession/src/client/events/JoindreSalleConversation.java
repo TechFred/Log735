@@ -32,18 +32,20 @@ public class JoindreSalleConversation implements ActionListener {
 			TCPConnectionServeur.getInstance().connectToServeur();
 			int idRoom = TCPConnectionServeur.getInstance().tryJoinRoom(roomName.getText(), roomPassword.getText());
 			
+			System.out.println(idRoom);
 			if(idRoom > 0){
 				
 				JFrameRoom frameR = new JFrameRoom();
 				Room room = new Room(idRoom, roomName.getText(), roomPassword.getText(), false, frameR);
 				frameR.setRoom(room);
 				
+				frameR.setVisible(true);
 				room.setUsers(TCPConnectionServeur.getInstance().retreiveRoomUsers(idRoom));
 				room.refreshListeUsers();
 				room.joinRoomAnnounce(Session.getInstance().getUser());
 				
 				
-				frameR.setVisible(true);
+				
 
 				Session.getInstance().getRooms().add(room);
 				f.dispose();
@@ -52,7 +54,7 @@ public class JoindreSalleConversation implements ActionListener {
 			TCPConnectionServeur.getInstance().disconnectFromServeur();
 			
 		}else{
-			JOptionPane.showConfirmDialog(f, "Vous devez entre un nom pour la salle de conversation!");
+			JOptionPane.showMessageDialog(f, "Vous devez entre un nom pour la salle de conversation!");
 		}
 		
 	}
