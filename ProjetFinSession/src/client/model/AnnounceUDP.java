@@ -19,4 +19,28 @@ public class AnnounceUDP implements Serializable{
 		this.userUID = userUID;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getIpAdress() {
+		return ipAdress;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public int getRoomID() {
+		return roomID;
+	}
+
+	public int getUserUID() {
+		return userUID;
+	}
+
 }

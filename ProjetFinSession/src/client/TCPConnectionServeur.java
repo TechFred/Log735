@@ -130,7 +130,8 @@ public class TCPConnectionServeur {
 					User u = new User();
 					u.setUid(Integer.parseInt(args[2]));
 					u.setUsername(args[1]);
-					
+					u.setIpAddress(args[3]);
+					u.setPort(Integer.parseInt(port));
 					Session.getInstance().setUser(u);
 					
 					worked = true;

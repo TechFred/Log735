@@ -41,7 +41,7 @@ public class UserAuthentification implements ActionListener {
 			
 			lobby.setVisible(true);
 			Session.getInstance().getLobby().refreshListeUsers();
-			
+			Session.getInstance().getLobby().joinRoomAnnounce(Session.getInstance().getUser());
 			frame.dispose();
 			TCPConnectionServeur.getInstance().disconnectFromServeur();
 			

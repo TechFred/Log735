@@ -22,7 +22,7 @@ public class MainClient {
 		startSocket();
 		
 		// Debug test
-		
+		/*
 		User user = new User();
 		user.setIpAddress("127.0.0.1");
 		user.setPort(localPort);
@@ -32,6 +32,7 @@ public class MainClient {
 		room.setUid(2);
 		room.setUsers(arrayUser);
 		UserRoomMessage urm = new UserRoomMessage();
+		*/
 		//MessageUDP msg = new MessageUDP(room.getUid(), "allo");
 		//urm.sendMessage(msg, room);
 		

@@ -11,8 +11,7 @@ import client.model.User;
 
 public class UtilsSendUDP {
 
-	
-	public static void SendUDP(Object ob, Room r) {
+	public static void SendUDP(Object ob, String ip, int port) {
 
 		try {
 			ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
@@ -20,12 +19,11 @@ public class UtilsSendUDP {
 			os.writeObject(ob);
 			byte[] payload = outSteam.toByteArray();
 			// Do While pour tous les users du room.
-			for (User u : r.getUsers()) {
-				InetAddress ipAdress = InetAddress.getByName(u.getIpAddress());
-				DatagramPacket sendPacket = new DatagramPacket(payload, payload.length, ipAdress, u.getPort());
-				DatagramSocket socket = new DatagramSocket();
-				socket.send(sendPacket);
-			}
+
+			InetAddress ipAdress = InetAddress.getByName(ip);
+			DatagramPacket sendPacket = new DatagramPacket(payload, payload.length, ipAdress, port);
+			DatagramSocket socket = new DatagramSocket();
+			socket.send(sendPacket);
 
 		} catch (Exception e) {
 			e.printStackTrace();

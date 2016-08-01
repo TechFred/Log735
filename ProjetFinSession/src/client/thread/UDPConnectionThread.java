@@ -11,10 +11,13 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import client.events.UserRoomMessage;
+import client.model.AnnounceUDP;
 import client.model.MessageUDP;
+import client.model.QuitUDP;
 
 public class UDPConnectionThread extends Thread {
-    private DatagramSocket socketUDP;
+	private DatagramSocket socketUDP;
+
 	public UDPConnectionThread(DatagramSocket socketUDP) {
 		this.socketUDP = socketUDP;
 	}
@@ -22,7 +25,7 @@ public class UDPConnectionThread extends Thread {
 	public void run() {
 
 		while (true) {
-			
+
 			System.out.println("UDP started");
 			try {
 				System.out.println("Listening UDP port: " + socketUDP.getLocalPort());
@@ -39,8 +42,12 @@ public class UDPConnectionThread extends Thread {
 							MessageUDP messageUDP = (MessageUDP) messageReceived;
 							UserRoomMessage urm = new UserRoomMessage();
 							urm.receiveMessage(messageUDP);
-						} else {
-							System.out.println("UDP inconnu");
+						} else if (messageReceived instanceof AnnounceUDP) {
+							AnnounceUDP a = (AnnounceUDP) messageReceived;
+							new UserRoomMessage().receiveAnnounce(a);
+						} else if (messageReceived instanceof QuitUDP) {
+							QuitUDP q = (QuitUDP) messageReceived;
+							new UserRoomMessage().receiveQuit(q);
 						}
 
 					} catch (Exception e) {

@@ -2,45 +2,30 @@ package client.events;
 
 import client.model.Session;
 import client.model.User;
+import client.utils.InChatPrebuildMessages;
 import client.utils.UtilsSendUDP;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
 import client.model.AnnounceUDP;
 import client.model.MessageUDP;
+import client.model.QuitUDP;
 import client.model.Room;
 
 public class UserRoomMessage {
+
+	private Room lobby = Session.getInstance().getLobby();
+	private ArrayList<Room> roomList = Session.getInstance().getRooms();
 
 	public UserRoomMessage() {
 	}
 
 	public void sendMessage(MessageUDP m, Room r) {
 		System.out.println("Message envoyé: " + m.getMessage());
-		UtilsSendUDP.SendUDP(m, r);
-		/*
-		 * try { ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-		 * ObjectOutputStream os = new ObjectOutputStream(outSteam);
-		 * os.writeObject(m); byte[] payload = outSteam.toByteArray();
-		 * 
-		 * // Do While pour tous les users du room. for (User u : r.getUsers())
-		 * { InetAddress ipAdress = InetAddress.getByName(u.getIpAddress());
-		 * DatagramPacket sendPacket = new DatagramPacket(payload,
-		 * payload.length, ipAdress, u.getPort()); DatagramSocket socket = new
-		 * DatagramSocket(); socket.send(sendPacket); System.out.println(
-		 * "Message envoyé"); }
-		 * 
-		 * } catch (Exception e) { e.printStackTrace(); }
-		 */
-
+		for (User u : r.getUsers()) {
+			UtilsSendUDP.SendUDP(m, u.getIpAddress(), u.getPort());
+		}
 	}
 
 	public void receiveMessage(MessageUDP m) {
@@ -48,11 +33,36 @@ public class UserRoomMessage {
 		System.out.println("Message Reçu: " + m.getRoomUID() + " - " + m.getMessage());
 
 		if (session.getLobby().getUid() == m.getRoomUID()) {
-			showMessageInChat(m.getMessage(), session.getLobby(), m.getUserUID());
+			InChatPrebuildMessages.showMessageInChat(m.getMessage(), session.getLobby(), m.getUserUID());
 		} else {
 			for (Room r : session.getRooms()) {
 				if (r.getUid() == m.getRoomUID()) {
-					showMessageInChat(m.getMessage(), r, m.getUserUID());
+					InChatPrebuildMessages.showMessageInChat(m.getMessage(), r, m.getUserUID());
+					break;
+				}
+
+			}
+		}
+	}
+
+	public void receiveAnnounce(AnnounceUDP a) {
+		Session session = Session.getInstance();
+		System.out.println("Announce Reçu: " + a.getRoomID() + " - " + a.getNickname());
+
+		if (session.getLobby().getUid() == a.getRoomID()) {
+			User user = new User(a.getUserUID(), a.getNickname(), a.getIpAdress(), Integer.toString(a.getPort()));
+			session.getLobby().addUser(user);
+			session.getLobby().refreshListeUsers();
+			InChatPrebuildMessages.showMessageUserJoined(user, session.getLobby());
+
+		} else {
+			for (Room r : session.getRooms()) {
+				if (r.getUid() == a.getRoomID()) {
+					User user = new User(a.getUserUID(), a.getNickname(), a.getIpAdress(),
+							Integer.toString(a.getPort()));
+					r.addUser(user);
+					r.refreshListeUsers();
+					InChatPrebuildMessages.showMessageUserJoined(user, r);
 					break;
 				}
 
@@ -61,25 +71,58 @@ public class UserRoomMessage {
 	}
 
 	public void sendAnnounce(AnnounceUDP a, Room r) {
-		UtilsSendUDP.SendUDP(a, r);
+		System.out.println("Announces sent");
+		for (User u : r.getUsers()) {
+			UtilsSendUDP.SendUDP(a, u.getIpAddress(), u.getPort());
+		}
 
 	}
 
-	private void showMessageInChat(String message, Room room, int userUID) {
-		boolean userFound = false;
-		for (User u : room.getUsers()) {
-			if (userUID == u.getUid()) {
-				Date dt = new Date();
-				String hoursMinute = ("[" + dt.getHours() + ":" + dt.getMinutes() + "]");
-				String nickname = "<" + u.getUsername() + ">";
-				room.addUserMessage(hoursMinute + " " + nickname + " " + message);
-				userFound = true;
-				break;
+	public void receiveQuit(QuitUDP q) {
+	System.out.println("Quit Reçu");
+		Room r;
+		if (q.getRoomUID() == lobby.getUid()) {
+			r = lobby;
+			User u = r.remove(q.getUserUID());
+			InChatPrebuildMessages.showMessageUserQuit(u, r);
+		} else if ((r = findRoomUID(q.getRoomUID())) != null) {
+			
+			r.remove(q.getUserUID());
+			User  u = r.remove(q.getUserUID());
+			InChatPrebuildMessages.showMessageUserQuit(u, r);
+		} else {
+			System.out.println("Salle non trouvé");
+		}
+	}
+
+	public void sendQuit(QuitUDP q, Room r) {
+		System.out.println("Quits sent");
+		ArrayList<User> Users = (ArrayList<User>) r.getUsers().clone();
+		for (User u : Users) {
+			UtilsSendUDP.SendUDP(q, u.getIpAddress(), u.getPort());
+		}
+
+		// Envoyer au serveur en dernier.
+	}
+
+	private Room findRoomUID(int uid) {
+		Room roomFound = null;
+		for (Room r : this.roomList) {
+			if (r.getUid() == uid) {
+				roomFound = r;
 			}
 		}
-		if (!userFound) {
-			System.out.println("Error, user not found");
+		return roomFound;
+	}
+
+	private User findUserUID(int uid, Room r) {
+		User userFound = null;
+		for (User u : r.getUsers()) {
+			if (u.getUid() == uid) {
+				userFound = u;
+			}
 		}
+		return userFound;
 	}
 
 }

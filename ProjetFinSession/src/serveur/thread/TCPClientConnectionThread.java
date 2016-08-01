@@ -123,7 +123,7 @@ public class TCPClientConnectionThread extends Thread{
 					user.setPort(Integer.parseInt(args[3]));
 					Session.getInstance().getLobby().addUser(user);
 					
-					out.println("__WORKED__]["+args[1]+"]["+id);
+					out.println("__WORKED__]["+args[1]+"]["+id+"]["+ user.getIp());
 					
 					
 				}else{
