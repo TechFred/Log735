@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import client.MainClient;
 import client.model.Room;
 import client.model.Session;
+import client.thread.ThreadLifebeat;
 import client.ui.JFrameLobby;
 import client.utils.TCPConnectionServeur;
 
@@ -44,6 +45,7 @@ public class UserAuthentification implements ActionListener {
 			Session.getInstance().getLobby().joinRoomAnnounce(Session.getInstance().getUser());
 			frame.dispose();
 			TCPConnectionServeur.getInstance().disconnectFromServeur();
+			new ThreadLifebeat().start();
 			
 		}
 		

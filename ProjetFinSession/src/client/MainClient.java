@@ -59,8 +59,6 @@ public class MainClient {
 			e.printStackTrace();
 			System.out.println("Erreur, le thread UDP n'a pas démarré");
 		}
-
-
 	}
 
 }

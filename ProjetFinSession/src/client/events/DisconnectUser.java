@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import client.model.QuitUDP;
 import client.model.Session;
 import client.utils.TCPConnectionServeur;
+import client.utils.UserRoomMessage;
 
 public class DisconnectUser implements WindowListener {
 
