@@ -28,16 +28,17 @@ public class GestionUserThread {
 	private void removeUser(OnlineUser u){
 		for (Room r : Session.getInstance().getListeRooms()){
 			r.removeUser(u);
+			for (OnlineUser userToNotify : r.getListeUsers()){
+				
+				UtilsSendUDP.SendUDP(q, userToNotify.getIp(),userToNotify.getPort());
+				
+
+				}
 		}
 	}
 	private void sendUDPTimeOut(OnlineUser u, Room r){
 		QuitUDP q = new QuitUDP(u.getUid(),r.getUid(),true);
-		for (OnlineUser userToNotify : r.getListeUsers()){
-			
-		UtilsSendUDP.SendUDP(q, userToNotify.getIp(),userToNotify.getPort());
-		
 
-		}
 	}
 	private void saveData(){
 		
