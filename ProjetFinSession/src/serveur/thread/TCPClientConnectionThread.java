@@ -23,7 +23,6 @@ public class TCPClientConnectionThread extends Thread{
 	}
 	
 	public void run() {
-		
 		try{
 			
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);

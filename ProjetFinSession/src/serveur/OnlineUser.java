@@ -2,7 +2,8 @@ package serveur;
 
 public class OnlineUser {
 	
-	private int 	uid;
+	private int 	uid,
+					port;
 	private String 	ip,
 					username;
 	private long 	login,
@@ -47,6 +48,14 @@ public class OnlineUser {
 	
 	public void setLifeBeat(long lifeBeat) {
 		this.lifeBeat = lifeBeat;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 }

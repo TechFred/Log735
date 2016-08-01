@@ -6,6 +6,8 @@ public class User {
 				receiveId = 1;
 		
 	private String username;
+	private int port;
+	private String ipAddress;
 	
 	public String toString(){
 		String r = username;
@@ -39,6 +41,18 @@ public class User {
 	}
 	public void setReceiveId(int receiveId) {
 		this.receiveId = receiveId;
+	}
+	public int getPort() {
+		return port;
+	}
+	public void setPort(int port) {
+		this.port = port;
+	}
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 	
 }

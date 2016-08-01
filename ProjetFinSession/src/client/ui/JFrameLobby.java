@@ -125,10 +125,6 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 
 		mntmCrerUneSalle.addActionListener(new MenuCreerSalleConversation());
 		mntmRejoindreUneSalle.addActionListener(new MenuJoindreSalleConversation());
-		refreshUserMessage("allo");
-		refreshUserMessage("allo");
-		refreshUserMessage("allo");
-		refreshUserMessage("test");
 	}
 
 	@Override
@@ -140,6 +136,8 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 	}
 
 	public void refreshUserMessage(String message) {
+		chatRoom.setText(chatRoom.getText() + message +"\n");
+		
 	}
 	
 
