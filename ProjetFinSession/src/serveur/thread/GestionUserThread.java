@@ -19,25 +19,26 @@ public class GestionUserThread {
 	private void crawlerOnlineUsers(){
 		for (OnlineUser u : Session.getInstance().getLobby().getListeUsers()){
 			if (u.getLifeBeat() + (60*1000) < System.currentTimeMillis()){
-				removeUser(u);
-				Session.getInstance().getLobby().removeUser(u);
-				// Send UDP
+				removeUser(u); // pas testé
+				Session.getInstance().getLobby().removeUser(u); // Pas testé
+				
+				// Send UDP pour les users du rooms lobby
 			}
 		}
 	}
 	private void removeUser(OnlineUser u){
 		for (Room r : Session.getInstance().getListeRooms()){
-			r.removeUser(u);
+			r.removeUser(u); // Pas testé
 			for (OnlineUser userToNotify : r.getListeUsers()){
+				 //sendUDPTimeOut(userToNotify,r); // Send UDP pour les users du rooms. 
 				
-				UtilsSendUDP.SendUDP(q, userToNotify.getIp(),userToNotify.getPort());
 				
-
 				}
 		}
 	}
 	private void sendUDPTimeOut(OnlineUser u, Room r){
 		QuitUDP q = new QuitUDP(u.getUid(),r.getUid(),true);
+		UtilsSendUDP.SendUDP(q, u.getIp(),u.getPort());
 
 	}
 	private void saveData(){
