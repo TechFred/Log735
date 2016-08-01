@@ -13,19 +13,18 @@ import java.net.SocketException;
 import client.model.MessageUDP;
 
 public class UDPConnectionThread extends Thread {
-	private int port;
-
-	public UDPConnectionThread(int port) {
-		this.port = port;
+    private DatagramSocket socketUDP;
+	public UDPConnectionThread(DatagramSocket socketUDP) {
+		this.socketUDP = socketUDP;
 	}
 
 	public void run() {
 
 		while (true) {
-			DatagramSocket socketUDP = null;
+			
 			System.out.println("UDP started");
 			try {
-				socketUDP = new DatagramSocket(port);
+				System.out.println("Listening UDP port: " + socketUDP.getLocalPort());
 				byte[] incomingData = new byte[2048];
 
 				while (true) {
@@ -40,7 +39,7 @@ public class UDPConnectionThread extends Thread {
 							MessageUDP messageUDP = (MessageUDP) messageReceived;
 							System.out.println("UDP reçu: " + messageUDP.getMessage());
 						} else {
-
+							System.out.println("UDP inconnu");
 						}
 
 					} catch (Exception e) {

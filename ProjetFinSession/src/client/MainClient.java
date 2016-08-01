@@ -1,8 +1,10 @@
 package client;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import client.events.UserRoomMessage;
@@ -14,8 +16,8 @@ import client.ui.JFrameConnectionServeur;
 import serveur.thread.TCPClientConnectionThread;
 
 public class MainClient {
-	private final static int CLIENT_UDP_PORT = 9005;
-
+	private final static int CLIENT_UDP_PORT = 0; // port 0 = port libre. 
+	private static int localPort;
 	public static void main(String[] args) {
 		startSocket();
 		
@@ -23,7 +25,7 @@ public class MainClient {
 		
 		User user = new User();
 		user.setIpAddress("127.0.0.1");
-		user.setPort(CLIENT_UDP_PORT);
+		user.setPort(localPort);
 		ArrayList<User> arrayUser = new ArrayList<User>();
 		arrayUser.add(user);
 		Room room = new Room();
@@ -34,6 +36,7 @@ public class MainClient {
 		urm.sendMessage(msg, room);
 		
 		// End of debug
+		
 		JFrameConnectionServeur frame = new JFrameConnectionServeur();
 		frame.setVisible(true);
 
@@ -55,7 +58,16 @@ public class MainClient {
 	}
 
 	private static void startSocket() {
-		new UDPConnectionThread(CLIENT_UDP_PORT).start();
+		DatagramSocket socket;
+		try {
+			socket = new DatagramSocket(CLIENT_UDP_PORT);
+			new UDPConnectionThread(socket).start();
+			localPort = socket.getLocalPort();
+		} catch (SocketException e) {
+			e.printStackTrace();
+			System.out.println("Erreur, le thread UDP n'a pas démarré");
+		}
+
 
 	}
 
