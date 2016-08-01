@@ -2,8 +2,8 @@ package client.model;
 
 import java.util.ArrayList;
 
-import client.events.UserRoomMessage;
 import client.ui.FrameConvo;
+import client.utils.UserRoomMessage;
 
 public class Room {
 

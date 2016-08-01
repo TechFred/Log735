@@ -1,9 +1,7 @@
-package client.events;
+package client.utils;
 
 import client.model.Session;
 import client.model.User;
-import client.utils.InChatPrebuildMessages;
-import client.utils.UtilsSendUDP;
 
 import java.util.ArrayList;
 

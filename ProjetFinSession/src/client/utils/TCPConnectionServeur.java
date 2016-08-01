@@ -189,5 +189,10 @@ public class TCPConnectionServeur {
 	public int getServerPort(){
 		return serveurPort;
 	}
+
+	public void leaveRoom(int userId, int roomId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

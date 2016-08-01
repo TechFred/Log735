@@ -66,7 +66,6 @@ public class JFrameCreerSalleConversation extends JFrame {
 		gbc_btnCrer.gridy = 3;
 		getContentPane().add(btnCrer, gbc_btnCrer);
 		
-		
 		setBounds(100, 100, 300, 150);
 	}
 

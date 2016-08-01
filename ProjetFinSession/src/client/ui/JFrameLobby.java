@@ -13,10 +13,10 @@ import java.awt.Dimension;
 import client.events.DisconnectUser;
 import client.events.MenuCreerSalleConversation;
 import client.events.MenuJoindreSalleConversation;
-import client.events.UserRoomMessage;
 import client.model.MessageUDP;
 import client.model.Session;
 import client.model.User;
+import client.utils.UserRoomMessage;
 
 import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;

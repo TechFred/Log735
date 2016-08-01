@@ -33,9 +33,18 @@ public class Session {
 	public void setLobby(Room l){
 		this.lobby = l;
 	}
-
-	public ArrayList<Room> getRooms() {
+	
+	public ArrayList<Room> getRooms(){
 		return rooms;
+	}
+	
+	public void quitterRoom(int uid) {
+		for(int i = 0; i <= rooms.size(); i++ ){
+			if(rooms.get(i).getUid() == uid){
+				rooms.remove(i);
+				i--;
+			}
+		}
 	}
 
 }
