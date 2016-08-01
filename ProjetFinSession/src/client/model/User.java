@@ -19,9 +19,12 @@ public class User {
 	public User(){
 		
 	}
-	public User(int id, String nom){
+	public User(int id, String nom,String ip, String port){
 		this.uid = id;
 		this.username = nom;
+		this.ipAddress = ip;
+		this.port = Integer.parseInt(port);
+		//System.out.println("user add : "+ id + " " + port +" " + nom + " " + id);
 	}
 	
 	public int getUid() {

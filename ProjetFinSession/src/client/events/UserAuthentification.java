@@ -31,8 +31,7 @@ public class UserAuthentification implements ActionListener {
 		
 		String encryptedPassword = MainClient.encrypt(password);
 		
-		if( TCPConnectionServeur.getInstance().tryToLogin(user, encryptedPassword) ){
-			
+		if( TCPConnectionServeur.getInstance().tryToLogin(user, encryptedPassword, Integer.toString(MainClient.localPort)) ){
 			JFrameLobby lobby = new JFrameLobby();
 			
 			Room lobbyR = new Room(0, "Lobby", "", false, lobby);

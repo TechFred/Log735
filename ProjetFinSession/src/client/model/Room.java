@@ -78,5 +78,9 @@ public class Room {
 	public void refreshListeUsers() {
 		frameParent.refreshListeUsers(users.toArray(new User[users.size()]));
 	}
+	public void addUserMessage(String message){
+		frameParent.refreshUserMessage(message);
+	
+	}
 	
 }

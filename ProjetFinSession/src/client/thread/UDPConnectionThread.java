@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
+import client.events.UserRoomMessage;
 import client.model.MessageUDP;
 
 public class UDPConnectionThread extends Thread {
@@ -30,14 +31,14 @@ public class UDPConnectionThread extends Thread {
 				while (true) {
 					DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 					socketUDP.receive(incomingPacket);
-					System.out.println("UDP reçu");
 					byte bytes[] = incomingPacket.getData();
 					ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(bytes));
 					Serializable messageReceived = (Serializable) is.readObject();
 					try {
 						if (messageReceived instanceof MessageUDP) {
 							MessageUDP messageUDP = (MessageUDP) messageReceived;
-							System.out.println("UDP reçu: " + messageUDP.getMessage());
+							UserRoomMessage urm = new UserRoomMessage();
+							urm.receiveMessage(messageUDP);
 						} else {
 							System.out.println("UDP inconnu");
 						}

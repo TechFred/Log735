@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import client.events.DisconnectUser;
 import client.events.MenuCreerSalleConversation;
 import client.events.MenuJoindreSalleConversation;
+import client.events.UserRoomMessage;
+import client.model.MessageUDP;
 import client.model.Session;
 import client.model.User;
 
@@ -46,18 +48,14 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 	public JList<User> listUsers;
 	private JTextField chatTextBox;
 
+	private UserRoomMessage userRoomMessage = new UserRoomMessage();
+
 	/**
 	 * Create the frame.
 	 */
-	
 
-
-
-	
 	public JFrameLobby() {
 
-		
-		
 		model = new DefaultListModel<User>();
 		listUsers = new JList<User>(model);
 
@@ -80,8 +78,6 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 		JScrollPane scrollPanelRooms = new JScrollPane(panelRoom);
 		panelRoom.setLayout(null);
 
-
-		
 		chatRoom.setLineWrap(true);
 		chatRoom.setBounds(0, 0, 648, 399);
 		chatRoom.setEditable(false);
@@ -92,15 +88,18 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 		panelRoom.add(chatTextBox);
 		chatTextBox.setColumns(10);
 		chatTextBox.addActionListener(new ActionListener() {
-		
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				refreshUserMessage(chatTextBox.getText());
-				//TODO Les 45000 validation si on veut sécuriser le texte.
+				// refreshUserMessage(chatTextBox.getText());
+				// TODO Les 45000 validation si on veut sécuriser le texte.
+				userRoomMessage.sendMessage(new MessageUDP(Session.getInstance().getLobby().getUid(),
+						chatTextBox.getText(), Session.getInstance().getUser().getUid()),
+						Session.getInstance().getLobby());
 				chatTextBox.setText("");
 			}
 		});
-		
+
 		panelUsers.setBackground(Color.WHITE);
 		JScrollPane scrollPanelUsers = new JScrollPane(panelUsers);
 		panelUsers.setLayout(new BorderLayout(0, 0));
@@ -136,9 +135,8 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 	}
 
 	public void refreshUserMessage(String message) {
-		chatRoom.setText(chatRoom.getText() + message +"\n");
-		
+		chatRoom.setText(chatRoom.getText() + message + "\n");
+
 	}
-	
 
 }

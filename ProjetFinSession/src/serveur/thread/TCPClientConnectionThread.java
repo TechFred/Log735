@@ -75,7 +75,7 @@ public class TCPClientConnectionThread extends Thread{
 	
 	private void retrieveUsersInLobby(PrintWriter out) {
 		for (OnlineUser u : Session.getInstance().getLobby().getListeUsers()) {
-			out.println("__USER__]["+u.getUid()+"]["+u.getUsername());
+			out.println("__USER__]["+u.getUid()+"]["+u.getUsername()+"]["+u.getIp()+"]["+u.getPort());
 		}
 		out.println("__END__");
 	}
@@ -120,10 +120,11 @@ public class TCPClientConnectionThread extends Thread{
 					user.setIp(socket.getInetAddress().getHostAddress());
 					user.setLogin(System.currentTimeMillis());
 					user.setLifeBeat(System.currentTimeMillis());
-				
+					user.setPort(Integer.parseInt(args[3]));
 					Session.getInstance().getLobby().addUser(user);
 					
 					out.println("__WORKED__]["+args[1]+"]["+id);
+					
 					
 				}else{
 					

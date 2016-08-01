@@ -107,10 +107,10 @@ public class TCPConnectionServeur {
 		return worked;
 	}
 
-	public boolean tryToLogin(String user, String encryptedPassword) {
+	public boolean tryToLogin(String user, String encryptedPassword, String port) {
 		boolean worked = false;
 		
-		out.println("TRY_LOGIN]["+user+"]["+encryptedPassword);
+		out.println("TRY_LOGIN]["+user+"]["+encryptedPassword+"][" + port);
 		
 		String inputLine;
 		
@@ -145,7 +145,7 @@ public class TCPConnectionServeur {
 		
 		return worked;
 	}
-
+	
 	public void logout() {
 		
 		out.println("LOGOUT]["+Session.getInstance().getUser().getUid()+"]["+Session.getInstance().getUser().getUsername());
@@ -168,7 +168,8 @@ public class TCPConnectionServeur {
 				if(args[0].trim().equals("__END__")){
 					break;
 				}else if(args[0].trim().equals("__USER__")){
-					listeUsersInLobby.add(new User(Integer.parseInt(args[1]), args[2]));
+					listeUsersInLobby.add(new User(Integer.parseInt(args[1]), args[2], args[3], args[4]));
+					
 				}
 				
 			}

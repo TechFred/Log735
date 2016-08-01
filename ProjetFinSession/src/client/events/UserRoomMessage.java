@@ -22,7 +22,6 @@ public class UserRoomMessage {
 
 	public void sendMessage(MessageUDP m, Room r) {
 		SendUDP(m, r);
-		sendAnnounce(new AnnounceUDP("127.0.0.1", "bob", 9001 , 2, 2), r);
 		/*
 		 * try { ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
 		 * ObjectOutputStream os = new ObjectOutputStream(outSteam);
@@ -43,11 +42,21 @@ public class UserRoomMessage {
 	public void receiveMessage(MessageUDP m) {
 		Session session = Session.getInstance();
 		System.out.println("Message Reçu: " + m.getRoomUID() + " - " + m.getMessage());
-		for (Room s : session.getRooms()) {
-			if (s.getUid() == m.getRoomUID()) {
-				// Trouver la fenêtre avec le bon roomUID. Envoyer le message à
-				// la méthode
-				break;
+
+		if (session.getLobby().getUid() == m.getRoomUID()) {
+
+			session.getLobby().addUserMessage(m.getMessage());
+
+		} else {
+			for (Room r : session.getRooms()) {
+				if (r.getUid() == m.getRoomUID()) {
+					// Trouver la fenêtre avec le bon roomUID. Envoyer le
+					// message à
+					// la méthode
+
+					r.addUserMessage(m.getMessage());
+					break;
+				}
 			}
 		}
 
@@ -74,7 +83,7 @@ public class UserRoomMessage {
 				socket.send(sendPacket);
 				System.out.println("Message envoyé");
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

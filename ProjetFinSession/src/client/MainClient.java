@@ -17,7 +17,7 @@ import serveur.thread.TCPClientConnectionThread;
 
 public class MainClient {
 	private final static int CLIENT_UDP_PORT = 0; // port 0 = port libre. 
-	private static int localPort;
+	public static int localPort;
 	public static void main(String[] args) {
 		startSocket();
 		
@@ -32,8 +32,8 @@ public class MainClient {
 		room.setUid(2);
 		room.setUsers(arrayUser);
 		UserRoomMessage urm = new UserRoomMessage();
-		MessageUDP msg = new MessageUDP(room.getUid(), "allo");
-		urm.sendMessage(msg, room);
+		//MessageUDP msg = new MessageUDP(room.getUid(), "allo");
+		//urm.sendMessage(msg, room);
 		
 		// End of debug
 		
