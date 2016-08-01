@@ -3,7 +3,7 @@ package client.events;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import client.TCPConnectionServeur;
+import client.utils.TCPConnectionServeur;
 
 public class DisconnectAndClose implements WindowListener {
 

@@ -27,14 +27,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.GridBagLayout;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.text.AttributeSet.CharacterAttribute;
 import javax.swing.JTextArea;
 
 public class JFrameLobby extends JFrame implements FrameConvo {
@@ -55,6 +50,7 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 	 */
 
 	public JFrameLobby() {
+		setResizable(false);
 
 		model = new DefaultListModel<User>();
 		listUsers = new JList<User>(model);
@@ -94,8 +90,9 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 				// refreshUserMessage(chatTextBox.getText());
 				// TODO Les 45000 validation si on veut sécuriser le texte.
 				userRoomMessage.sendMessage(new MessageUDP(Session.getInstance().getLobby().getUid(),
-						chatTextBox.getText(), Session.getInstance().getUser().getUid()),
-						Session.getInstance().getLobby());
+					chatTextBox.getText(), Session.getInstance().getUser().getUid()),
+					Session.getInstance().getLobby()
+				);
 				chatTextBox.setText("");
 			}
 		});
@@ -136,7 +133,6 @@ public class JFrameLobby extends JFrame implements FrameConvo {
 
 	public void refreshUserMessage(String message) {
 		chatRoom.setText(chatRoom.getText() + message + "\n");
-
 	}
 
 }

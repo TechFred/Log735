@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import client.TCPConnectionServeur;
 import client.ui.JFrameAuthentificationUtilisateur;
+import client.utils.TCPConnectionServeur;
 
 public class ConnectionServeur implements ActionListener {
 	JTextField txtFieldIp;

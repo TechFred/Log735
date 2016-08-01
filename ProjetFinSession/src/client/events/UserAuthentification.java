@@ -8,10 +8,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import client.MainClient;
-import client.TCPConnectionServeur;
 import client.model.Room;
 import client.model.Session;
 import client.ui.JFrameLobby;
+import client.utils.TCPConnectionServeur;
 
 public class UserAuthentification implements ActionListener {
 	private JFrame frame;

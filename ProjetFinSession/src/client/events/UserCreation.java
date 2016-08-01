@@ -9,8 +9,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import client.MainClient;
-import client.TCPConnectionServeur;
 import client.ui.JFrameAuthentificationUtilisateur;
+import client.utils.TCPConnectionServeur;
 
 public class UserCreation implements ActionListener {
 	private JFrame frame;
