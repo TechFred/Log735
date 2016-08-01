@@ -1,19 +1,10 @@
 package client;
 
-import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 
-import client.events.UserRoomMessage;
-import client.model.MessageUDP;
-import client.model.Room;
-import client.model.User;
 import client.thread.UDPConnectionThread;
 import client.ui.JFrameConnectionServeur;
-import serveur.thread.TCPClientConnectionThread;
 
 public class MainClient {
 	private final static int CLIENT_UDP_PORT = 0; // port 0 = port libre. 

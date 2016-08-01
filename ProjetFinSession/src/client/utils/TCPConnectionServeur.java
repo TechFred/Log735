@@ -179,9 +179,15 @@ public class TCPConnectionServeur {
 			e.printStackTrace();
 		}
 		
-		
 		return listeUsersInLobby;
 	}
 	
+	public String getServerIp(){
+		return serveurIP;
+	}
+	
+	public int getServerPort(){
+		return serveurPort;
+	}
 	
 }
