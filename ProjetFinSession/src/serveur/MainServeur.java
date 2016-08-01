@@ -1,8 +1,10 @@
 package serveur;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import serveur.data.ConfigManager;
 import serveur.data.UsersManager;
@@ -12,7 +14,8 @@ import serveur.thread.TCPClientConnectionThread;
 public class MainServeur {
 	
 	private static int SERVER_PORT = 9001;
-
+	private static int SERVER_PORT_UDP = 9005;
+	
 	public static void main(String[] args) {
 		
 		ConfigManager.load();
@@ -20,6 +23,13 @@ public class MainServeur {
 		
 		ServerSocket serverSocket = null;
         Socket socket = null;
+
+        try {
+			DatagramSocket SocketUDP = new DatagramSocket(SERVER_PORT_UDP);
+			System.out.println("Le serveur UDP est fonctionnel");
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}
 
         try {
             serverSocket = new ServerSocket(SERVER_PORT);

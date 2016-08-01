@@ -8,12 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import client.events.UserRoomMessage;
-import client.model.AnnounceUDP;
-import client.model.MessageUDP;
-import client.model.QuitUDP;
 import serveur.LifeBeatManager;
-import serveur.model.Session;
 
 public class UDPConnectionThread extends Thread {
 	private DatagramSocket socketUDP;
