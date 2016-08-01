@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import client.events.DisconnectAndClose;
 import client.events.UserCreation;
+import client.ui.JFrameAuthentificationUtilisateur;
 
 import java.awt.GridBagLayout;
 

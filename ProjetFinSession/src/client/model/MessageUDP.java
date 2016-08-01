@@ -23,6 +23,10 @@ public class MessageUDP implements Serializable{
 	public String getMessage() {
 		return message;
 	}
+
+	public int getUserUID() {
+		return userUID;
+	}
 	
 
 }
