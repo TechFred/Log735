@@ -30,6 +30,18 @@ public class Session {
 		return u;
 	}
 
+	public OnlineUser getUser(int uid) {
+		OnlineUser u = null;
+		
+		for(OnlineUser us : lobby.getListeUsers()){
+			if(us.getUid() == uid){
+				u = us;
+				break;
+			}
+		}
+		
+		return u;
+	}
 	public Room getLobby() {
 		return lobby;
 	}

@@ -12,6 +12,8 @@ import client.events.UserRoomMessage;
 import client.model.AnnounceUDP;
 import client.model.MessageUDP;
 import client.model.QuitUDP;
+import serveur.LifeBeatManager;
+import serveur.model.Session;
 
 public class UDPConnectionThread extends Thread {
 	private DatagramSocket socketUDP;
@@ -36,16 +38,9 @@ public class UDPConnectionThread extends Thread {
 					ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(bytes));
 					Serializable messageReceived = (Serializable) is.readObject();
 					try {
-						if (messageReceived instanceof MessageUDP) {
-							MessageUDP messageUDP = (MessageUDP) messageReceived;
-							UserRoomMessage urm = new UserRoomMessage();
-							urm.receiveMessage(messageUDP);
-						} else if (messageReceived instanceof AnnounceUDP) {
-							AnnounceUDP a = (AnnounceUDP) messageReceived;
-							new UserRoomMessage().receiveAnnounce(a);
-						} else if (messageReceived instanceof QuitUDP) {
-							QuitUDP q = (QuitUDP) messageReceived;
-							new UserRoomMessage().receiveQuit(q);
+						if (messageReceived instanceof Integer) {
+							Integer life = (Integer) messageReceived;
+							new LifeBeatManager();
 						}
 
 					} catch (Exception e) {
