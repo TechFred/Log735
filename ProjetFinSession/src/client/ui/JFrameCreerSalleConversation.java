@@ -5,6 +5,9 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+
+import client.events.CreerSalleConversation;
+
 import java.awt.Insets;
 import javax.swing.JButton;
 
@@ -57,14 +60,16 @@ public class JFrameCreerSalleConversation extends JFrame {
 		getContentPane().add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 		
-		JButton btnCrer = new JButton("Cr\u00E9er");
+		JButton btnCreer = new JButton("Cr\u00E9er");
 		GridBagConstraints gbc_btnCrer = new GridBagConstraints();
 		gbc_btnCrer.gridwidth = 2;
 		gbc_btnCrer.anchor = GridBagConstraints.EAST;
 		gbc_btnCrer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCrer.gridx = 4;
 		gbc_btnCrer.gridy = 3;
-		getContentPane().add(btnCrer, gbc_btnCrer);
+		getContentPane().add(btnCreer, gbc_btnCrer);
+		
+		btnCreer.addActionListener(new CreerSalleConversation(this, textField, textField_1));
 		
 		setBounds(100, 100, 300, 150);
 	}

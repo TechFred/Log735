@@ -62,7 +62,6 @@ public class UserRoomMessage {
 					InChatPrebuildMessages.showMessageUserJoined(user, r);
 					break;
 				}
-
 			}
 		}
 	}

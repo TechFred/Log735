@@ -34,6 +34,14 @@ public class TCPConnectionServeur {
 		serveurIP = ip;
 		serveurPort = port;
 	}
+	
+	public String getServerIp(){
+		return serveurIP;
+	}
+	
+	public int getServerPort(){
+		return serveurPort;
+	}
 		
 	public void connectToServeur(){
 
@@ -172,9 +180,7 @@ public class TCPConnectionServeur {
 					listeUsersInLobby.add(new User(Integer.parseInt(args[1]), args[2], args[3], args[4]));
 					
 				}
-				
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -182,17 +188,110 @@ public class TCPConnectionServeur {
 		return listeUsersInLobby;
 	}
 	
-	public String getServerIp(){
-		return serveurIP;
-	}
 	
-	public int getServerPort(){
-		return serveurPort;
+
+	public void leaveRoom(int roomId) {
+		
+		out.println("LEAVE_ROOM]["+Session.getInstance().getUser().getUid()+"]["+Session.getInstance().getUser().getUsername());
+		String inputLine;
+		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
-	public void leaveRoom(int userId, int roomId) {
-		// TODO Auto-generated method stub
+	public int tryCreateRoom(String roomName, String roomPassword) {
+		int idRoom = 0;
+
+		out.println("TRY_CREATE_ROOM]["+Session.getInstance().getUser().getUid()+"]["+roomName+"]["+roomPassword);
+		String inputLine;
 		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}else if(args[0].trim().equals("__ALREADY_EXISTS__")){
+					JOptionPane.showMessageDialog(new JFrame(), "Une salle de conversation existe déjà avec ce nom!");
+				}else if(args[0].trim().equals("__CREATED__")){
+					idRoom = Integer.parseInt(args[1]);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return idRoom;
+	}
+
+	public int tryJoinRoom(String roomName, String roomPassword) {
+		
+		int idRoom = 0;
+
+		out.println("TRY_JOIN_ROOM]["+Session.getInstance().getUser().getUid()+"]["+roomName+"]["+roomPassword);
+		String inputLine;
+		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}else if(args[0].trim().equals("__WRONG_PASSWORD__")){
+					JOptionPane.showMessageDialog(new JFrame(), "Nom de salle ou mot de pass incorrect!");
+				}else if(args[0].trim().equals("__JOINED__")){
+					idRoom = Integer.parseInt(args[1]);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return idRoom;
+		
+	}
+
+	public ArrayList<User> retreiveRoomUsers(int idRoom) {
+ArrayList<User> listeUsersInLobby = new ArrayList<User>();
+		
+		out.println("RETRIEVE_USERS_FROM_ROOM]["+idRoom+"]["+Session.getInstance().getUser().getUid());
+		
+		String inputLine;
+		
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				
+				String[] args = inputLine.split("\\]\\[");
+				System.out.println("Client received: '"+inputLine+"'");
+				
+				if(args[0].trim().equals("__END__")){
+					break;
+				}else if(args[0].trim().equals("__USER__")){
+					listeUsersInLobby.add(new User(Integer.parseInt(args[1]), args[2], args[3], args[4]));
+				}else if(args[0].trim().equals("__ROOM_DOESNT_EXISTS__")){
+					JOptionPane.showMessageDialog(new JFrame(), "Une erreure est survenue, cette salle de conversation ne emble pas exister!");
+				}
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return listeUsersInLobby;
 	}
 	
 }

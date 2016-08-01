@@ -32,12 +32,11 @@ public class QuitterRoom implements WindowListener {
 		int i = JOptionPane.showConfirmDialog(f, "Êtes-vous sure de vouloir quitter cette salle de conversation?");
 		if (i == 0) {
 			int roomUID = r.getUid();
-			int userUID = Session.getInstance().getUser().getUid();
 			
-			new UserRoomMessage().sendQuit(new QuitUDP(userUID, roomUID, false), r);
+			new UserRoomMessage().sendQuit(new QuitUDP(Session.getInstance().getUser().getUid(), roomUID, false), r);
 			
 			TCPConnectionServeur.getInstance().connectToServeur();
-			TCPConnectionServeur.getInstance().leaveRoom( userUID, r.getUid() );
+			TCPConnectionServeur.getInstance().leaveRoom( r.getUid() );
 			TCPConnectionServeur.getInstance().disconnectFromServeur();
 			
 			Session.getInstance().quitterRoom(r.getUid());

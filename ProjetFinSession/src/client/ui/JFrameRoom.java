@@ -53,9 +53,8 @@ public class JFrameRoom extends JFrame implements FrameConvo {
 	 * Create the frame.
 	 */
 
-	public JFrameRoom(Room rooom) {
+	public JFrameRoom() {
 		
-		this.room = rooom;
 		setResizable(false);
 
 		model = new DefaultListModel<User>();
@@ -117,6 +116,9 @@ public class JFrameRoom extends JFrame implements FrameConvo {
 
 	}
 
+	public void setRoom(Room rooom){
+		this.room = rooom;
+	}
 	@Override
 	public void refreshListeUsers(User[] u) {
 		model.clear();
