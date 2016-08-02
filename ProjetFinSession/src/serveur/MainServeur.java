@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import client.thread.UDPConnectionThread;
+import serveur.thread.UDPConnectionThread;
 import serveur.data.ConfigManager;
 import serveur.data.UsersManager;
 import serveur.thread.GestionUserThread;
@@ -29,14 +29,13 @@ public class MainServeur {
 		startSocketUDP();
 		try {
 			serverSocket = new ServerSocket(SERVER_PORT);
-			System.out
-					.println("Le serveur est en marche et en attente de la connexion au port " + SERVER_PORT + " ...");
+			System.out.println("Le serveur est en marche et en attente de la connexion au port " + SERVER_PORT + " ...");
 
 			while (true) {
 				try {
 					socket = serverSocket.accept();
-
-					System.out.println("Connexion r\u00E9ussie.");
+					
+					System.out.println("Connexion r\u00E9ussie. "+socket.getInetAddress().getHostAddress());
 					System.out.println("Attente de l'entr\u00e9e...");
 
 					new TCPClientConnectionThread(socket).start();

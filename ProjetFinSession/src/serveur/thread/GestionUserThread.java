@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import client.model.QuitUDP;
 import client.utils.UtilsSendUDP;
+import serveur.data.OnlineUsersManager;
+import serveur.data.RoomManager;
 import serveur.model.OnlineUser;
 import serveur.model.Room;
 import serveur.model.Session;
 
 public class GestionUserThread extends Thread {
 
-	private int sleepTime = 30*1000;
+	private int sleepTime = 10*1000;
 	
 	public void run(){
 		
@@ -34,17 +36,18 @@ public class GestionUserThread extends Thread {
 	// 
 	
 	private void loadData() {
-		// TODO Auto-generated method stub
-		
+		Session.getInstance().getLobby().setListeUsers(OnlineUsersManager.load());
+		Session.getInstance().setListeRooms(RoomManager.load());
 	}
 
 	private void crawlerOnlineUsers(){
 		ArrayList<OnlineUser> users = Session.getInstance().getLobby().getListeUsers();
 		for (int i = 0; i < users.size(); i++ ){
-			System.out.println("if( " +users.get(i).getLifeBeat()+" + "+60000+" ("+(users.get(i).getLifeBeat()+60000)+") < "+System.currentTimeMillis());
 			if (users.get(i).getLifeBeat() + (60*1000) < System.currentTimeMillis()){
 				OnlineUser u = users.get(i);
+				System.out.println("L'utilisateur "+u.getUsername()+" a timeout!");
 				removeUser(u);
+				
 				if(Session.getInstance().getLobby().removeUser(u)){
 					// Send UDP pour les users du rooms lobby
 					for (OnlineUser userToNotify : Session.getInstance().getLobby().getListeUsers()){
@@ -52,6 +55,7 @@ public class GestionUserThread extends Thread {
 					}
 					sendUDPTimeOut( u, Session.getInstance().getLobby(), u );
 				}
+				
 			}
 		}
 	}
@@ -71,6 +75,8 @@ public class GestionUserThread extends Thread {
 	}
 	
 	private void saveData(){
-		
+		System.out.println("SAVE");
+		OnlineUsersManager.save();
+		RoomManager.save();
 	}
 }

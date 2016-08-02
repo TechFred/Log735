@@ -1,7 +1,10 @@
 package serveur.model;
 
-public class OnlineUser {
+import java.io.Serializable;
 
+public class OnlineUser implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int uid, port;
 	private String ip, username;
 	private long login, lifeBeat;

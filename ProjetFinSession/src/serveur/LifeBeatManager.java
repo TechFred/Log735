@@ -7,7 +7,9 @@ public class LifeBeatManager {
 
 	public static void receiveLifeBeat(int userUID){
 		OnlineUser user = Session.getInstance().getUser(userUID);
-		user.setLifeBeat(System.currentTimeMillis());
-		System.out.println("LB (" + user.getUsername() +")");
+		if(user != null){
+			user.setLifeBeat(System.currentTimeMillis());
+			System.out.println("LB (" + user.getUsername() +")");
+		}
 	}
 }

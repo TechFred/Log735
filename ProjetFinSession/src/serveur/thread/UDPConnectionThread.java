@@ -30,11 +30,12 @@ public class UDPConnectionThread extends Thread {
 					
 					DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 					socketUDP.receive(incomingPacket);
+					
 					byte bytes[] = incomingPacket.getData();
 					ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(bytes));
 					Serializable messageReceived = (Serializable) is.readObject();
 					try {
-						System.out.println("Yo! "+(Integer)messageReceived);
+						
 						if (messageReceived instanceof Integer) {
 							Integer life = (Integer) messageReceived;
 							LifeBeatManager.receiveLifeBeat(life);

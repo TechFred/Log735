@@ -1,8 +1,11 @@
 package serveur.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Room {
+public class Room implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private int 					uid;
 	
@@ -68,7 +71,19 @@ public class Room {
 	}
 	
 	public boolean removeUser(OnlineUser u){
-		return this.users.remove(u);
+		boolean removed = false;
+		if(this.users.remove(u)){
+			removed = true;
+			if(users.isEmpty()){
+				Session.getInstance().getListeRooms().remove(this);
+			}
+		}
+		return removed;
+	}
+
+
+	public void setListeUsers(ArrayList<OnlineUser> save) {
+		users = save;
 	}
 	
 }
